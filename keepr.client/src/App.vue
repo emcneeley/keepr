@@ -9,6 +9,9 @@
     <Modal id="createKeep">
       <CreateKeepForm />
     </Modal>
+    <Modal id="activeKeep">
+      <ActiveKeep />
+    </Modal>
   </footer>
 </template>
 

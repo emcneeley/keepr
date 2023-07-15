@@ -63,4 +63,41 @@ public class KeepController : ControllerBase
         }
     }
 
+    [HttpPut("{keepId}")]
+    [Authorize]
+    public ActionResult<Keep> EditKeep(int keepId, [FromBody] Keep updateData)
+    {
+        try
+        {
+            // Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+            // updateData.CreatorId = userInfo.Id;
+            updateData.Id = keepId;
+            Keep updatedKeep = _keepService.EditKeep(updateData);
+            return Ok(updatedKeep);
+        }
+        catch (Exception e)
+        {
+
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("{keepId}")]
+    [Authorize]
+
+    public async Task<ActionResult<string>> DeleteKeep(int keepId)
+    {
+        try
+        {
+            Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+            _keepService.DeleteKeep(keepId, userInfo.Id);
+            return Ok("This Keep has been DelOrTed");
+        }
+        catch (Exception e)
+        {
+
+            return BadRequest(e.Message);
+        }
+    }
+
 }

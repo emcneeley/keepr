@@ -33,6 +33,29 @@ public class KeepRepository
         return newKeep;
     }
 
+    internal int DeleteKeep(int keepId)
+    {
+        string sql = @"
+        DELETE FROM keep 
+        WHERE Id= @keepId LIMIT 1
+        ;";
+        int rows = _db.Execute(sql, new { keepId });
+        return rows;
+    }
+
+    internal void EditKeep(Keep original)
+    {
+        string sql = @"
+        UPDATE keep SET
+        Name=@Name,
+        Description=@Description, 
+        Img=@Img, 
+        Views=@Views
+        WHERE Id=@Id
+        ;";
+        _db.Execute(sql, original);
+    }
+
     internal List<Keep> GetAllKeep()
     {
         string sql = @"

@@ -2,10 +2,9 @@
   <button data-bs-toggle="modal" data-bs-target="#createKeep"> Create Keep</button>
 
   <div class="row">
-    <div class="col-4">
 
-      {{ keep }}
-    </div>
+
+    <KeepCard v-for="k in keep" :keep="k" />
 
   </div>
 </template>
@@ -14,7 +13,7 @@
 import { Modal } from 'bootstrap'
 import Pop from '../utils/Pop'
 import { keepService } from '../services/KeepService'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 export default {
   setup() {
@@ -35,7 +34,7 @@ export default {
 
     )
     return {
-      keep: computed(() => { AppState.keeps })
+      keep: computed(() => AppState.keeps)
     }
 
 
