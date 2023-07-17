@@ -23,10 +23,9 @@ CREATE TABLE
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 
-drop table keep
 CREATE TABLE
     IF NOT EXISTS vaultKeep(
-        id INT NOT NULL,
+        id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
         creatorId VARCHAR (255),
         vaultId INT NOT NULL,
         keepID INT NOT NULL
@@ -44,3 +43,8 @@ CREATE TABLE
         isPrivate TINYINT NOT NULL DEFAULT 0,
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
+
+SELECT vk.*, act.*
+FROM vaultKeep vk
+    JOIN accounts act ON act.Id = vk.Id
+WHERE vk.KeepId = @VaultId;

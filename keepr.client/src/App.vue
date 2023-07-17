@@ -12,6 +12,9 @@
     <Modal id="activeKeep">
       <ActiveKeep />
     </Modal>
+    <Modal id="createVault">
+      <CreateVault />
+    </Modal>
   </footer>
 </template>
 

@@ -1,5 +1,9 @@
 <template>
-  <button data-bs-toggle="modal" data-bs-target="#createKeep"> Create Keep</button>
+  <div>
+    <button data-bs-toggle="modal" data-bs-target="#createKeep"> Create Keep</button>
+    <button data-bs-toggle="modal" data-bs-target="#createVault"> Create Vault</button>
+
+  </div>
 
   <div class="row">
 

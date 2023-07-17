@@ -91,4 +91,38 @@ public class KeepRepository
         }, new { keepId }).FirstOrDefault();
         return keep;
     }
+
+    internal List<Keep> GetKeepsForProfile(string profileId)
+    {
+        string sql = @"
+       SELECT 
+       k.*,
+       acct.*
+       FROM keep k
+       JOIN accounts acct ON acct.id =k.CreatorId
+       WHERE k.CreatorId=@profileId
+       ;";
+
+        List<Keep> keeps = _db.Query<Keep, Profile, Keep>
+        (sql, (keep, profile) =>
+        {
+            keep.Creator = profile;
+            return keep;
+        }, new { profileId }).ToList();
+
+        return keeps;
+    }
+
+    // internal List<Keep> GetKeepsInVault(int vaultId)
+    // {
+    //     string sql=@"
+    //     SELECT 
+    //     k.*,
+    //     act.*
+    //     FROM keep k
+    //     JOIN accounts act ON act.id =k.CreatorId
+    //     WHERE k.VaultId =@VaultId
+
+    //     ;";
+    // }
 }

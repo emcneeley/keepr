@@ -4,31 +4,32 @@ namespace keepr.Controllers;
 [Route("api/[controller]")]
 public class ValuesController : ControllerBase
 {
-  [HttpGet]
-  public ActionResult<List<string>> Get()
-  {
-    try
+    [HttpGet]
+    public ActionResult<List<string>> Get()
     {
-      return Ok(new List<string>() { "Value 1", "Value 2" });
+        try
+        {
+            return Ok(new List<string>() { "Value 1", "Value 2" });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
-    catch (Exception e)
-    {
-      return BadRequest(e.Message);
-    }
-  }
 
 
-  [HttpPost]
-  public ActionResult<List<string>> Create([FromBody] string value)
-  {
-    try
+    [HttpPost]
+    public ActionResult<List<string>> Create([FromBody] string value)
     {
-      return Ok(value);
+        try
+        {
+            return Ok(value);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
-    catch (Exception e)
-    {
-      return BadRequest(e.Message);
-    }
-  }
+
 
 }

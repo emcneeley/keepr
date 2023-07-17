@@ -3,10 +3,15 @@ namespace keepr.Services;
 public class KeepService
 {
     private readonly KeepRepository _keepRepository;
+    private readonly VaultsService _vaultsService;
 
-    public KeepService(KeepRepository keepRepository)
+    private readonly VaultKeepsRepository _vaultKeepRepo;
+
+    public KeepService(KeepRepository keepRepository, VaultsService vaultsService, VaultKeepsRepository vaultKeepsRepo)
     {
         _keepRepository = keepRepository;
+        _vaultsService = vaultsService;
+        _vaultKeepRepo = vaultKeepsRepo;
     }
 
     internal Keep CreateKeep(Keep keepData)
@@ -47,4 +52,18 @@ public class KeepService
         int rows = _keepRepository.DeleteKeep(keepId);
         if (rows > 1) new Exception("What in tarnation?");
     }
+
+    internal List<Keep> GetKeepsForProfile(string profileId, string userId)
+    {
+        List<Keep> keeps = _keepRepository.GetKeepsForProfile(profileId);
+        return keeps;
+    }
+
+    // internal List<Keep> GetKeepsInVault(int vaultId, string userId)
+    // {
+    //     _vaultsService.GetById(vaultId, userId);
+    //     List<Keep> keeps = _vaultKeepRepo.GetKeepsInVault(vaultId);
+    //     return keeps;
+
+    // }
 }
