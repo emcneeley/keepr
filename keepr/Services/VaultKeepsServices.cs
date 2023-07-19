@@ -16,13 +16,34 @@ namespace keepr.Services
             return vaultKeep;
         }
 
-        internal List<KeepInVault> GetKeepsInVault(int vaultId)
+        internal VaultKeep GetById(int vaultKeepId)
+        {
+            VaultKeep vaultkeep = _vaultKeepRepo.GetById(vaultKeepId);
+            if (vaultkeep == null)
+            {
+                throw new Exception($"This is a bad ID holms, try again: {vaultKeepId}");
+            }
+            return vaultkeep;
+        }
+
+        internal List<KeepInVault> GetKeepsInVault(int vaultId, string userId)
         {
             List<KeepInVault> keeps = _vaultKeepRepo.GetKeepsInVault(vaultId);
             return keeps;
 
         }
 
+        internal string RemoveKeepFromVault(int vaultKeepId, string userId)
+        {
+            VaultKeep vaultkeep = GetById(vaultKeepId);
+            if (vaultkeep?.CreatorId != userId)
+            {
+                throw new Exception("THIS AINT YOURS! SCRAM!");
+            }
+
+            _vaultKeepRepo.RemoveKeepFromVault(vaultKeepId);
+            return $"KEEP HAS BEEN SUCCESSFULLY DELETED";
+        }
     }
 
 }

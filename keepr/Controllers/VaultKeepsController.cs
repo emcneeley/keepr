@@ -6,11 +6,13 @@ public class VaultKeepsController : ControllerBase
 {
     private readonly VaultKeepsServices _vaultKeepsServices;
     private readonly Auth0Provider _auth;
+    private readonly KeepService _keepService;
 
-    public VaultKeepsController(VaultKeepsServices vaultKeepsServices, Auth0Provider auth)
+    public VaultKeepsController(VaultKeepsServices vaultKeepsServices, Auth0Provider auth, KeepService keepService)
     {
         _vaultKeepsServices = vaultKeepsServices;
         _auth = auth;
+        _keepService = keepService;
     }
 
 
@@ -22,7 +24,7 @@ public class VaultKeepsController : ControllerBase
         try
         {
             Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-            vaultKeepData.CreatorId = userInfo.Id;
+            vaultKeepData.CreatorId = userInfo?.Id;
             VaultKeep newVaultKeep = _vaultKeepsServices.CreateVaultKeep(vaultKeepData);
             return Ok(newVaultKeep);
         }
@@ -33,14 +35,14 @@ public class VaultKeepsController : ControllerBase
         }
     }
 
-    // [HttpDelete("{vaultKeepId}")]
-    // [Authorize]
-    // public async Task<ActionResult<string>> RemoveKeepFromVault(int vaultKeepId)
-    // {
-    //     Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-    //     _vaultKeepsServices.RemoveKeepFromVault(vaultKeepId, userInfo?.Id);
-    //     return Ok("Keep Successfully Removed");
+    [HttpDelete("{vaultKeepId}")]
+    [Authorize]
+    public async Task<ActionResult<string>> RemoveKeepFromVault(int vaultKeepId)
+    {
+        Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+        _vaultKeepsServices.RemoveKeepFromVault(vaultKeepId, userInfo?.Id);
+        return Ok("Keep Successfully Removed");
 
-    // }
+    }
 
 }

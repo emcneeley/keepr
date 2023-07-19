@@ -28,6 +28,12 @@ class KeepService {
         const res = await api.delete(`api/keeps/${keepId}`)
         logger.log('[DELETING KEEP]', res.data)
     }
+
+    async getKeepsByVaultId(vaultId) {
+        const res = await api.get(`api/vaults/${vaultId}/keeps`)
+        logger.log('[GETTING KEEPS IN VAULT', res.data)
+        AppState.keeps = res.data.map(k => new Keep(k))
+    }
 }
 
 export const keepService = new KeepService()

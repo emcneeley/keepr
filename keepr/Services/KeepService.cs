@@ -37,6 +37,7 @@ public class KeepService
 
     internal Keep EditKeep(Keep updateData)
     {
+
         Keep original = GetById(updateData.Id);
         original.Name = updateData.Name != null ? updateData.Name : original.Name;
         original.Description = updateData.Description != null ? updateData.Description : original.Description;
@@ -58,6 +59,11 @@ public class KeepService
         List<Keep> keeps = _keepRepository.GetKeepsForProfile(profileId);
         return keeps;
     }
+
+    // internal void RemoveKeepFromVault(int vaultKeepId, string id)
+    // {
+    //     Keep keep = GetById(keepId)
+    // }
 
     // internal List<Keep> GetKeepsInVault(int vaultId, string userId)
     // {

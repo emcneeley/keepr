@@ -3,10 +3,12 @@ namespace keepr.Services
     public class VaultsService
     {
         private readonly VaultsRepository _vaultrepo;
+        private readonly ProfileService _profileService;
 
-        public VaultsService(VaultsRepository vaultrepo)
+        public VaultsService(VaultsRepository vaultrepo, ProfileService profileService)
         {
             _vaultrepo = vaultrepo;
+            _profileService = profileService;
         }
 
         internal Vault CreateVault(Vault vaultData)
@@ -17,7 +19,7 @@ namespace keepr.Services
 
         internal void DeleteVault(int vaultId, string userId)
         {
-            Vault vault = GetById(vaultId);
+            Vault vault = GetById(vaultId, userId);
             if (vault.CreatorId != userId) new Exception("I dont think so bud. Mosey on out of here.");
             int rows = _vaultrepo.DeleteVault(vaultId);
             if (rows > 1) new Exception("What the in the Sam Hill?");
@@ -25,7 +27,8 @@ namespace keepr.Services
 
         internal Vault EditVault(Vault updateData)
         {
-            Vault original = GetById(updateData.Id);
+
+            Vault original = GetById(updateData.Id, updateData.CreatorId);
             original.Name = updateData.Name != null ? updateData.Name : original.Name;
             original.Description = updateData.Description != null ? updateData.Description : original.Description;
             original.Img = updateData.Img != null ? updateData.Img : original.Img;
@@ -34,10 +37,14 @@ namespace keepr.Services
             return original;
         }
 
-        internal Vault GetById(int vaultId)
+        internal Vault GetById(int vaultId, string userId)
         {
             Vault vault = _vaultrepo.GetById(vaultId);
             if (vault == null) throw new Exception($"No vault by this Id: {vaultId}");
+            if (vault?.IsPrivate == true && userId != vault.CreatorId)
+            {
+                throw new Exception($"SOMETHING WENT REALLY REALLY WRONG");
+            }
             return vault;
         }
 
@@ -47,10 +54,16 @@ namespace keepr.Services
             return vaults;
         }
 
-        internal List<Vault> GetVaultsForProfile(string profileId, string id)
+        internal List<Vault> GetVaultsForProfile(string profileId, string userId)
         {
+            _profileService.GetProfileById(profileId, userId);
             List<Vault> vaults = _vaultrepo.GetVaultsForProfile(profileId);
+            List<Vault> filteredvaults = vaults.FindAll(vault => vault.IsPrivate == false);
+
+
+
             return vaults;
+
         }
     }
 

@@ -9,6 +9,10 @@ CREATE TABLE
         coverImg varchar(255) COMMENT 'Cover Image'
     ) default charset utf8 COMMENT '';
 
+ALTER TABLE accounts
+ADD
+    COLUMN coverImg varchar(255) COMMENT 'Cover Image';
+
 CREATE TABLE
     IF NOT EXISTS keep (
         id INT NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
@@ -44,7 +48,7 @@ CREATE TABLE
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 
-SELECT vk.*, act.*
-FROM vaultKeep vk
-    JOIN accounts act ON act.Id = vk.Id
-WHERE vk.KeepId = @VaultId;
+SELECT k.*
+FROM keep k
+    JOIN vaultKeep vk ON k.id = vk.keepId
+    JOIN vault v ON vk.vaultId = v.id

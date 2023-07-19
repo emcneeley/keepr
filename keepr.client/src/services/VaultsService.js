@@ -11,7 +11,24 @@ class VaultsService {
         AppState.vaults.push(new Vault(res.data))
     }
 
+    async getMyVaults() {
+        const res = await api.get('account/vaults')
+        console.log(res.data, '[THESE ARE MY VAULTS]')
+        AppState.myVaults = res.data
+    }
 
+    async getById(vaultId) {
+        const res = await api.get(`api/vaults/${vaultId}`)
+        logger.log('[GET BY ID]', res.data)
+        AppState.activeVault = new Vault(res.data)
+    }
+
+    async getvaultsByProfileId(profileId) {
+        AppState.vaults = []
+        const res = await api.get(`api/profiles/${profileId}/vaults`)
+        console.log('[THESE ARE THE PROFILES VAULTS]', res.data)
+        AppState.vaults = res.data.map(v => new Vault(v))
+    }
 
 }
 

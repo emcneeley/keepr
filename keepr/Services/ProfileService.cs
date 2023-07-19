@@ -10,7 +10,7 @@ namespace keepr.Services
         }
 
 
-        internal Profile GetProfileById(string profileId)
+        internal Profile GetProfileById(string profileId, string userId)
         {
             Profile profile = _profileRepo.GetProfileById(profileId);
             if (profile == null) throw new Exception($"No PROFILE AT ID:{profileId}");

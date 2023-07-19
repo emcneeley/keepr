@@ -9,6 +9,7 @@
                 <p>{{ activeKeep?.name }}</p>
                 <p>{{ activeKeep?.description }}</p>
                 <img class="img-fluid" :src="activeKeep?.img" alt="">
+
             </div>
             <div v-if="isKeepCreator">
                 <!-- ADD LOGIC TO MAKE SURE YOU DONT GET TO DELTE UNLESS YOURE THE OWNER -->
@@ -36,7 +37,7 @@ import { logger } from '../utils/Logger'
 export default {
     setup() {
         return {
-            // keep: computed(() => AppState.activeKeep),
+            account: computed(() => AppState.account),
             activeKeep: computed(() => AppState.activeKeep),
             isKeepCreator: computed(() => {
                 if (AppState.activeKeep?.creatorId == AppState.account.id)

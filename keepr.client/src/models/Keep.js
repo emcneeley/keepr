@@ -1,3 +1,5 @@
+import { Profile } from "./Account"
+
 export class Keep {
     constructor(data) {
         this.id = data.id
@@ -7,5 +9,6 @@ export class Keep {
         this.img = data.img
         this.views = data.views
         this.kept = data.kept
+        this.creator = data.creator
     }
 }
