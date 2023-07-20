@@ -39,7 +39,7 @@ public class VaultKeepsRepository
         return vaultkeep;
     }
 
-    // TODO I NEED TO GET THIS INSANE THING DONE!!!!!!!!!!!!!!!!
+
     internal List<KeepInVault> GetKeepsInVault(int vaultId)
     {
         string sql = @"

@@ -48,7 +48,38 @@ CREATE TABLE
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 
-SELECT k.*
+SELECT
+    k.*,
+    creator.*,
+    COUNT(vk.KeepId) AS Kept
 FROM keep k
-    JOIN vaultKeep vk ON k.id = vk.keepId
-    JOIN vault v ON vk.vaultId = v.id
+    LEFT JOIN vaultKeep vk ON vk.KeepId = k.id
+    JOIN accounts creator ON creator.id = k.CreatorId
+GROUP BY (k.id);
+
+SELECT
+    k.*,
+    creator.*,
+    COUNT(v.Id) AS Kept
+FROM keep k
+    LEFT JOIN vault v ON v.Id = k.Id
+    JOIN accounts creator ON k.CreatorId = creator.id
+GROUP BY(k.id);
+
+SELECT
+    k.*,
+    creator.*,
+    COUNT(vk.Id) AS Kept
+FROM keep k
+    LEFT JOIN vaultKeep vk ON vk.KeepId = k.id
+    JOIN accounts creator ON k.CreatorId = creator.id
+GROUP BY k.id, creator.id;
+
+SELECT
+    creator.*,
+    k.*,
+    COUNT(vk.Id) AS Kept
+FROM keep k
+    LEFT JOIN vaultKeep vk ON vk.KeepId = k.Id
+    JOIN accounts creator ON k.CreatorId = creator.id
+GROUP BY k.Id
