@@ -42,13 +42,14 @@ public class VaultsController : ControllerBase
         try
         {
             Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-            Vault vault = _vaultService.GetById(vaultId, userInfo.Id);
+            Vault vault = _vaultService.GetById(vaultId, userInfo?.Id);
             return Ok(vault);
         }
         catch (Exception e)
         {
 
             return BadRequest(e.Message);
+
         }
     }
 
@@ -75,10 +76,19 @@ public class VaultsController : ControllerBase
     [HttpDelete("{vaultId}")]
     [Authorize]
     public async Task<ActionResult<string>> DeleteVault(int vaultId)
+
+
     {
-        Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-        _vaultService.DeleteVault(vaultId, userInfo.Id);
-        return Ok("This Vault has been DeLorTed");
+        try
+        {
+            Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+            _vaultService.DeleteVault(vaultId, userInfo?.Id);
+            return Ok("This Vault has been DeLorTed");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpGet("{vaultId}/keeps")]
@@ -88,7 +98,7 @@ public class VaultsController : ControllerBase
         try
         {
             Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-            List<KeepInVault> keeps = _vaultKeepsServices.GetKeepsInVault(vaultId, userInfo.Id);
+            List<KeepInVault> keeps = _vaultKeepsServices.GetKeepsInVault(vaultId, userInfo?.Id);
             return Ok(keeps);
         }
         catch (Exception e)

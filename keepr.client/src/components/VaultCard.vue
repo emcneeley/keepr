@@ -14,6 +14,8 @@
                     <p>
                         {{ vault.description }}
                     </p>
+
+                    <button v-if="vault.creatorId == account.id" @click="deleteVault(vaultId)">Delete</button>
                 </div>
             </div>
 
@@ -24,14 +26,32 @@
 
 
 <script>
+import { computed } from 'vue'
+import { AppState } from '../AppState'
+import { Account } from '../models/Account'
 import { Vault } from '../models/Vault'
+import { vaultsService } from '../services/VaultsService'
+import Pop from '../utils/Pop'
 export default {
     props: {
         vault: { type: Vault, required: true }
+        // account: { type: Account, required: true }
     },
 
-    setup() {
-        return {}
+    setup(props) {
+        return {
+            account: computed(() => AppState.account),
+            async deleteVault() {
+                try {
+                    if (await Pop.confirm) {
+                        await vaultsService.deleteVault(props.vault?.id)
+                    }
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
+
+        }
     }
 }
 </script>

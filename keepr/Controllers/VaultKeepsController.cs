@@ -24,7 +24,7 @@ public class VaultKeepsController : ControllerBase
         try
         {
             Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-            vaultKeepData.CreatorId = userInfo?.Id;
+            vaultKeepData.CreatorId = userInfo.Id;
             VaultKeep newVaultKeep = _vaultKeepsServices.CreateVaultKeep(vaultKeepData);
             return Ok(newVaultKeep);
         }
@@ -40,7 +40,7 @@ public class VaultKeepsController : ControllerBase
     public async Task<ActionResult<string>> RemoveKeepFromVault(int vaultKeepId)
     {
         Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
-        _vaultKeepsServices.RemoveKeepFromVault(vaultKeepId, userInfo?.Id);
+        _vaultKeepsServices.RemoveKeepFromVault(vaultKeepId, userInfo.Id);
         return Ok("Keep Successfully Removed");
 
     }

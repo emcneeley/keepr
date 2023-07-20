@@ -6,12 +6,14 @@ public class KeepService
     private readonly VaultsService _vaultsService;
 
     private readonly VaultKeepsRepository _vaultKeepRepo;
+    private readonly ProfileService _profileService;
 
-    public KeepService(KeepRepository keepRepository, VaultsService vaultsService, VaultKeepsRepository vaultKeepsRepo)
+    public KeepService(KeepRepository keepRepository, VaultsService vaultsService, VaultKeepsRepository vaultKeepsRepo, ProfileService profileService)
     {
         _keepRepository = keepRepository;
         _vaultsService = vaultsService;
         _vaultKeepRepo = vaultKeepsRepo;
+        _profileService = profileService;
     }
 
     internal Keep CreateKeep(Keep keepData)
@@ -26,7 +28,7 @@ public class KeepService
         return keeps;
     }
 
-    internal Keep GetById(int keepId)
+    internal Keep GetById(int keepId, string userId)
     {
         Keep keep = _keepRepository.GetById(keepId);
         if (keep == null) throw new Exception($"no keep at id:{keepId}");
@@ -38,7 +40,12 @@ public class KeepService
     internal Keep EditKeep(Keep updateData)
     {
 
-        Keep original = GetById(updateData.Id);
+        Keep original = GetById(updateData.Id, updateData.CreatorId);
+        if (original.CreatorId != updateData.CreatorId)
+        {
+            throw new Exception("THAT AINT YO KEEP DOG!");
+        }
+
         original.Name = updateData.Name != null ? updateData.Name : original.Name;
         original.Description = updateData.Description != null ? updateData.Description : original.Description;
         original.Img = updateData.Img != null ? updateData.Img : original.Img;
@@ -48,14 +55,17 @@ public class KeepService
 
     internal void DeleteKeep(int keepId, string userId)
     {
-        Keep keep = GetById(keepId);
-        if (keep.CreatorId != userId) new Exception("I dont think so buddy. Move along with yo bad self");
+
+        Keep keep = GetById(keepId, userId);
+        if (keep.CreatorId != userId) throw new Exception("I dont think so buddy. Move along with yo bad self");
+
         int rows = _keepRepository.DeleteKeep(keepId);
-        if (rows > 1) new Exception("What in tarnation?");
+        if (rows > 1) throw new Exception("What in tarnation?");
     }
 
     internal List<Keep> GetKeepsForProfile(string profileId, string userId)
     {
+        _profileService.GetProfileById(profileId, userId);
         List<Keep> keeps = _keepRepository.GetKeepsForProfile(profileId);
         return keeps;
     }

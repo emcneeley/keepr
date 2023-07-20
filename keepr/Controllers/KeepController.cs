@@ -37,6 +37,7 @@ public class KeepController : ControllerBase
     {
         try
         {
+
             List<Keep> keeps = _keepService.GetAllKeep();
             return Ok(keeps);
 
@@ -49,17 +50,19 @@ public class KeepController : ControllerBase
     }
 
     [HttpGet("{keepId}")]
-    public ActionResult<Keep> GetKeepById(int keepId)
+    public async Task<ActionResult<Keep>> GetKeepById(int keepId)
     {
         try
         {
-            Keep keep = _keepService.GetById(keepId);
+            Account userInfo = await _auth.GetUserInfoAsync<Account>(HttpContext);
+            Keep keep = _keepService.GetById(keepId, userInfo?.Id);
             return Ok(keep);
         }
-        catch (Exception e)
+        catch (Exception)
         {
 
-            return BadRequest(e.Message);
+            return RedirectToAction("Home");
+            // return BadRequest(e.Message);
         }
     }
 

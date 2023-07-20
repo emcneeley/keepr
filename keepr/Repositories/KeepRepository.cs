@@ -50,7 +50,8 @@ public class KeepRepository
         Name=@Name,
         Description=@Description, 
         Img=@Img, 
-        Views=@Views
+        Views=@Views,
+        Kept=@Kept
         WHERE Id=@Id
         ;";
         _db.Execute(sql, original);

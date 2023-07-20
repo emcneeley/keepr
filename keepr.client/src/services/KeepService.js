@@ -1,7 +1,8 @@
 import { AppState } from "../AppState"
-import { Keep } from "../models/Keep"
+import { Keep, VaultKeep } from "../models/Keep"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService"
+import { vaultKeepService } from "./VaultKeepService"
 
 class KeepService {
     async createKeep(keepData) {
@@ -18,10 +19,19 @@ class KeepService {
 
     }
 
-    async getActiveKeep(keepId) {
-        const res = await api.get(`api/keeps/${keepId}`)
-        AppState.activeKeep = res.data
-        console.log('IM ACTIVE', res.data)
+    async getActiveKeep(keep) {
+        if (keep.vaultKeepId) {
+            AppState.activeKeep = keep
+        }
+        else {
+
+            const res = await api.get(`api/keeps/${keep.id}`)
+            AppState.activeKeep = res.data
+            console.log('IM ACTIVE', res.data)
+
+        }
+        // TODO is this a vault keep? check if the keep has a vaultKeepId
+        // TODO if it is a vault keep..... just save the keep in the AppState.activeKeep instead of going to the server
     }
 
     async deleteKeep(keepId) {
@@ -32,7 +42,8 @@ class KeepService {
     async getKeepsByVaultId(vaultId) {
         const res = await api.get(`api/vaults/${vaultId}/keeps`)
         logger.log('[GETTING KEEPS IN VAULT', res.data)
-        AppState.keeps = res.data.map(k => new Keep(k))
+        // TODO map into vault keep view model, not regular keep
+        AppState.keeps = res.data.map(k => new VaultKeep(k))
     }
 }
 

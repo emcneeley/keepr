@@ -48,6 +48,9 @@ export default {
                 try {
                     console.log('hello im a create')
                     const vaultData = editable.value
+                    if (vaultData.isPrivate == null) {
+                        vaultData.isPrivate = false
+                    }
                     await vaultsService.createVault(vaultData)
                     editable.value = {}
                 } catch (error) {
