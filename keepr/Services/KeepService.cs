@@ -31,7 +31,7 @@ public class KeepService
     internal Keep GetById(int keepId, string userId)
     {
         Keep keep = _keepRepository.GetById(keepId);
-        if (keep == null) throw new Exception($"no keep at id:{keepId}");
+        if (keep == null) throw new Exception("does not exist");
         keep.Views++;
         _keepRepository.EditKeep(keep);
         return keep;

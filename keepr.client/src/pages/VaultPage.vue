@@ -29,7 +29,7 @@
 
 <script>
 import { computed, onMounted, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { vaultsService } from '../services/VaultsService'
 import Pop from '../utils/Pop'
 import { AppState } from '../AppState'
@@ -38,6 +38,7 @@ import { keepService } from '../services/KeepService'
 export default {
     setup() {
         const route = useRoute()
+        const router = useRouter()
 
         async function getById() {
             try {
@@ -56,7 +57,7 @@ export default {
                 await keepService.getKeepsByVaultId(vaultId)
             } catch (error) {
                 logger.error(error)
-                Pop.toast(error.message, 'error')
+                router.push({ name: 'Home' })
             }
         }
 

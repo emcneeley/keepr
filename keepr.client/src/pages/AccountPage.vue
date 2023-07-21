@@ -39,6 +39,8 @@ export default {
         Pop.error(error)
       }
     }
+
+    // NOTE USE YOUR GET KEEPS BY PROFILE
     onMounted(() => getMyVaults())
     return {
       account: computed(() => AppState.account),

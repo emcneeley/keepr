@@ -36,6 +36,8 @@ export default {
         Pop.error(error)
       }
     }
+
+    // NOTE GO GET YOUR KEEPS BY PROFILE - THEN SAVE IT IN YOUR APPSTATE, COMPUTE THEM, THEN PUT THEM IN YOUR HTML
     onMounted(() =>
       getProfileById())
     getVaultsByProfile()

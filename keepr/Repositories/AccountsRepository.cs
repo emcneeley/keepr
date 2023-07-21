@@ -25,20 +25,22 @@ public class AccountsRepository
     {
         string sql = @"
             INSERT INTO accounts
-              (name, picture, email, id)
+              (name, picture, email, id,coverImg)
             VALUES
-              (@Name, @Picture, @Email, @Id)";
+              (@Name, @Picture, @Email, @Id,@coverImg)";
         _db.Execute(sql, newAccount);
         return newAccount;
     }
 
     internal Account Edit(Account update)
     {
+        // NOTE MAKE SURE TO ADD COVER IMAGE TO YOUR EDIT REPO
         string sql = @"
             UPDATE accounts
             SET 
               name = @Name,
-              picture = @Picture
+              picture = @Picture,
+            coverImg=@coverImg
             WHERE id = @Id;";
         _db.Execute(sql, update);
         return update;

@@ -58,11 +58,11 @@ public class KeepController : ControllerBase
             Keep keep = _keepService.GetById(keepId, userInfo?.Id);
             return Ok(keep);
         }
-        catch (Exception)
+        catch (Exception e)
         {
 
-            return RedirectToAction("Home");
-            // return BadRequest(e.Message);
+            // return RedirectToAction("Home");
+            return BadRequest(e.Message);
         }
     }
 
