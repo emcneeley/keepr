@@ -6,6 +6,7 @@ import { accountService } from './AccountService'
 import { api } from './AxiosService'
 import { socketService } from './SocketService'
 import { vaultsService } from './VaultsService'
+import { keepService } from './KeepService'
 
 export const AuthService = initialize({
   domain,
@@ -30,6 +31,7 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function () {
   // NOTE if there is something you want to do once the user is authenticated, place that here
 
   vaultsService.getMyVaults()
+  // keepService.getAccountKeeps()
 })
 
 async function refreshAuthToken(config) {

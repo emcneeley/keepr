@@ -11,6 +11,11 @@
                     v-model="editable.picture">
                 <label for="picture">Picture:</label>
             </div>
+            <div class="form-floating mb-3">
+                <input name="coverImg" class="form-control" placeholder="Cover Image" type="url" required
+                    v-model="editable.coverImg">
+                <label for="coverImg">Cover Image:</label>
+            </div>
             <!-- NOTE ADD COVER IMAGE TO YOUR FORM -->
             <!-- <div class="form-floating mb-3">
                 <input name="cover-img" class="form-control" placeholder="cover Image" type="url" required

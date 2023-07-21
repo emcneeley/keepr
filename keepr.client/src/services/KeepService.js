@@ -45,6 +45,21 @@ class KeepService {
         // TODO map into vault keep view model, not regular keep
         AppState.keeps = res.data.map(k => new VaultKeep(k))
     }
-}
 
+
+
+    async getKeepsByProfileId(profileId) {
+        const res = await api.get(`api/profiles/${profileId}/keeps`)
+        logger.log('[GETTING KEEPS BY PROFILE]', res.data)
+        AppState.keeps = res.data.map(k => new Keep(k))
+    }
+
+    async getAccountKeeps(accountId) {
+
+        const res = await api.get(`api/profiles/${accountId}/keeps`)
+        logger.log(`[GETTING KEEPS FOR ACCOUNT]`, res.data)
+        AppState.keeps = res.data.map(k => new Keep(k))
+    }
+
+}
 export const keepService = new KeepService()
