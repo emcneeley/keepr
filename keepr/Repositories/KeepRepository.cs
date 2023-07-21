@@ -67,7 +67,7 @@ public class KeepRepository
     FROM keep k
     LEFT JOIN vaultKeep vk ON vk.KeepId = k.Id
     JOIN accounts creator ON k.CreatorId = creator.id
-    GROUP BY k.Id   
+    GROUP BY k.id
         ;";
         List<Keep> keep = _db.Query<Keep, Account, Keep>(sql, (keep, profile) =>
         {
@@ -85,10 +85,10 @@ public class KeepRepository
     COUNT(vk.Id) AS Kept,
     creator.*
     FROM keep k
-    LEFT JOIN vaultKeep vk ON vk.KeepId = k.id
+    LEFT JOIN vaultKeep vk ON vk.KeepId = k.Id
     JOIN accounts creator ON k.CreatorId = creator.id
-    GROUP BY k.id   
-      ;";
+    WHERE k.Id=@KeepId
+    GROUP BY k.id;";
 
         Keep keep = _db.Query<Keep, Account, Keep>(sql, (keep, creator) =>
         {
@@ -101,13 +101,13 @@ public class KeepRepository
     internal List<Keep> GetKeepsForProfile(string profileId)
     {
         string sql = @"
-       SELECT 
+       SELECT
        k.*,
        acct.*
        FROM keep k
-       JOIN accounts acct ON acct.id =k.CreatorId
-       WHERE k.CreatorId=@profileId
-       ;";
+    JOIN accounts acct ON acct.id = k.CreatorId
+    WHERE CreatorId = @profileId
+       ; ";
 
         List<Keep> keeps = _db.Query<Keep, Profile, Keep>
         (sql, (keep, profile) =>

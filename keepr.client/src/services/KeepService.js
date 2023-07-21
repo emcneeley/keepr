@@ -13,18 +13,18 @@ class KeepService {
 
     async getAllKeeps() {
         const res = await api.get('api/keeps')
-        // logger.log(['GETTING ALL KEEPS'], res.data)
+        logger.log(['GETTING ALL KEEPS'], res.data)
         AppState.keeps = res.data.map(k => new Keep(k))
 
 
     }
 
     async getActiveKeep(keep) {
+
         if (keep.vaultKeepId) {
-            AppState.activeKeep = keep
+            AppState.activeKeep = keep;
         }
         else {
-
             const res = await api.get(`api/keeps/${keep.id}`)
             AppState.activeKeep = res.data
             console.log('IM ACTIVE', res.data)
