@@ -25,12 +25,16 @@ jobs:
           echo "$EC2_PEM_KEY" > ~/.ssh/id_rsa.pem
           chmod 600 ~/.ssh/id_rsa.pem
 
+      - name: Build the Project 📔
+        run: |
+          npm run build:client
+      
       - name: Copy your code to the EC2📔
         run: |
-          sudo scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r $GITHUB_WORKSPACE $EC2_USERNAME@$EC2_IP_ADDRESS:~/
+          sudo scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r ./keepr $EC2_USERNAME@$EC2_IP_ADDRESS:~/
 
       - name: Restart the EC2 🔃
         run: |
           # Add any commands required to restart your application on the EC2 instance
           # Example: 
-          sudo ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "cd keepr && npm run build:client && cd keepr && dotnet run"
+          sudo ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "cd keepr && dotnet publish -c Release -o /release && dotnet ~/keepr/release/keepr.dll"
