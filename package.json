@@ -1,0 +1,11 @@
+{
+  "name": "keepr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:client": "cd keepr.client && npm i && npm run build"
+  },
+  "author": "",
+  "license": "ISC"
+}

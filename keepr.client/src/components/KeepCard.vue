@@ -1,15 +1,15 @@
 <template>
-    <div @click="getActiveKeep(keep)" class="col-3 card m-2 " data-bs-toggle="modal" data-bs-target="#activeKeep">
+    <div @click="getActiveKeep(keep)" class="keep-card col-md-3 card m-2 " data-bs-toggle="modal"
+        data-bs-target="#activeKeep">
         <p class="text-dark"> {{ keep.name }}</p>
         <img class="img-fluid" :src="keep?.img" :alt="keep?.name">
 
-        <i mdi mdi-eye> {{ keep.views }}</i>
+        <i mdi mdi-eye-plus> {{ keep.views }}</i>
         <!-- <i mdi mdi-file>{{ keep.kept }}</i> -->
         <router-link :to="{ name: 'Profile', params: { profileId: keep?.creatorId } }">
             <div>
                 <img class="rounded-circle img-fluid" :src="keep.creator.picture" alt="">
             </div>
-
         </router-link>
         {{ keep.creator.name }}
         <div>
@@ -67,4 +67,13 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.keep-card {
+    background: black;
+    color: white;
+
+
+}
+
+.img {}
+</style>
