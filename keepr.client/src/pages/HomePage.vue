@@ -7,7 +7,7 @@
 
   <div class="row">
 
-    <KeepCard v-for="k in keep" :keep="k" />
+    <KeepCard v-for="k in keep" :keep="k" :key="k.id" />
 
   </div>
 </template>
