@@ -6,9 +6,9 @@ on:
       - main
 env:
   # Setting an environment variable with the value of a configuration variable
-  EC2_IP_ADDRESS: {{ secrets.EC2_IP_ADDRESS }}
-  EC2_USERNAME: {{ secrets.EC2_USERNAME }}
-  EC2_PEM_KEY: {{ secrets.EC2_PEM_KEY }}
+  EC2_IP_ADDRESS: ${{ secrets.EC2_IP_ADDRESS }}
+  EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+  EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
 
 jobs:
   deploy:
